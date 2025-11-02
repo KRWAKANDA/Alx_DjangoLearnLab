@@ -5,4 +5,3 @@ books = Book.objects.all()
 print(list(books))
 # Output: []
 
-
