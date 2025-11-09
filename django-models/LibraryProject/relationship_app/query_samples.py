@@ -21,12 +21,12 @@ except Author.DoesNotExist:
 library_name = "Central Library"
 try:
     library = Library.objects.get(name=library_name)
-    books_in_library = library.books.all()
-    print(f"\nBooks in {library_name}:")
-    for book in books_in_library:
-        print("-", book.title)
+    librarian = Librarian.objects.get(library=library)
+    print(f"Librarian for {library_name}: {librarian.name}")
 except Library.DoesNotExist:
     print("Library not found.")
+except Librarian.DoesNotExist:
+    print("No librarian assigned for this library.")
 
 
 try:
@@ -34,4 +34,5 @@ try:
     print(f"\nLibrarian for {library_name}: {librarian.name}")
 except Librarian.DoesNotExist:
     print("No librarian assigned for this library.")
+
 
