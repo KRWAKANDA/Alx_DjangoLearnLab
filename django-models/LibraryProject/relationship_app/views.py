@@ -1,16 +1,24 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.views.generic import DetailView
-from .models import Book, Library
+from .models import Book, Library  # ✅ Make sure Library is imported here
 
-# Function-Based View (FBV)
+
+# -------------------------
+# Function-Based View
+# -------------------------
 def list_books(request):
     books = Book.objects.all()
     context = {'books': books}
     return render(request, 'relationship_app/list_books.html', context)
 
-# Class-Based View (CBV)
+
+# -------------------------
+# Class-Based View
+# -------------------------
 class LibraryDetailView(DetailView):
     model = Library
     template_name = 'relationship_app/library_detail.html'
     context_object_name = 'library'
+
+
 
