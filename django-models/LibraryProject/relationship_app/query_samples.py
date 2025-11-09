@@ -10,7 +10,7 @@ from relationship_app.models import Author, Book, Library, Librarian
 author_name = "Jane Austen"
 try:
     author = Author.objects.get(name=author_name)
-    books_by_author = author.books.all()
+    books_by_author = Book.objects.filter(author=author)
     print(f"Books by {author_name}:")
     for book in books_by_author:
         print("-", book.title)
@@ -34,3 +34,4 @@ try:
     print(f"\nLibrarian for {library_name}: {librarian.name}")
 except Librarian.DoesNotExist:
     print("No librarian assigned for this library.")
+
