@@ -17,6 +17,14 @@ class BookForm(forms.ModelForm):
         return title
 
 
+class ExampleForm(forms.Form):
+    search_query = forms.CharField(
+        max_length=100,
+        required=False,
+        widget=forms.TextInput(attrs={"placeholder": "Search for a book"})
+    )
+
+
 class SearchForm(forms.Form):
     q = forms.CharField(required=False, max_length=100)
 
