@@ -1,28 +1,18 @@
-{% extends "base.html" %}
-{% block content %}
-  <h1>{{ title|default:"Form"|escape }}</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example Form</title>
+</head>
+<body>
+    <h1>Submit Example Form</h1>
 
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    <div>
-      {{ form.title.label_tag }}<br>
-      {{ form.title }}
-      {{ form.title.errors }}
-    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
 
-    <div>
-      {{ form.author.label_tag }}<br>
-      {{ form.author }}
-      {{ form.author.errors }}
-    </div>
+        <button type="submit">Submit</button>
+    </form>
 
-    <div>
-      {{ form.profile_photo.label_tag }}<br>
-      {{ form.profile_photo }}
-      {{ form.profile_photo.errors }}
-    </div>
-
-    <button type="submit">Submit</button>
-  </form>
-{% endblock %}
+</body>
+</html>
