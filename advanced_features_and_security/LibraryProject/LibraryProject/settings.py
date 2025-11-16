@@ -25,6 +25,43 @@ SECRET_KEY = 'django-insecure-ge!dva&m=5uk7f(5+(h0a!=2y#31-vxcl!ntt-(c0gmv=0d)w+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# --- Security settings (production) ---
+DEBUG = False  # MUST be False in production to avoid leaking sensitive info
+
+# Replace with your actual allowed hosts in production
+ALLOWED_HOSTS = ["yourdomain.com", "www.yourdomain.com", "localhost", "127.0.0.1"]
+
+# Browser protections
+SECURE_BROWSER_XSS_FILTER = True             # Enables the X-XSS-Protection header
+X_FRAME_OPTIONS = "DENY"                     # Prevent clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True           # Sets X-Content-Type-Options: nosniff
+
+# Cookie security - requires HTTPS in production
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Consider redirecting all HTTP to HTTPS (enable in production with valid certs)
+SECURE_SSL_REDIRECT = True
+
+# HSTS - Uncomment & tune for production only (careful while testing locally)
+# SECURE_HSTS_SECONDS = 31536000  # 1 year
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+
+# Content Security Policy using django-csp (see notes below)
+# If you install django-csp, add 'csp' to INSTALLED_APPS and the middleware below
+# Example CSP settings (tweak sources to fit your app)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'",)  # add trusted CDNs if used
+CSP_STYLE_SRC = ("'self'",)   # add 'unsafe-inline' only if you have to
+CSP_IMG_SRC = ("'self'", "data:")
+CSP_CONNECT_SRC = ("'self'",)
+
+# Other helpful headers via SecurityMiddleware (ensure SecurityMiddleware is in MIDDLEWARE)
+# Django's SecurityMiddleware already sets some headers when configured as above.
+
+
+
 ALLOWED_HOSTS = []
 
 
@@ -134,6 +171,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 AUTH_USER_MODEL = "bookshelf.CustomUser"
+
 
 
 
