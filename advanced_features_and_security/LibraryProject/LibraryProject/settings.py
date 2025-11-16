@@ -10,7 +10,48 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+
+
 from pathlib import Path
+
+# --- HTTPS / transport security settings (production) ---
+# WARNING: These settings require that your site is served over HTTPS.
+DEBUG = False
+
+# Ensure you list your real hostnames here
+ALLOWED_HOSTS = ["yourdomain.com", "www.yourdomain.com"]
+
+# Redirect HTTP -> HTTPS
+SECURE_SSL_REDIRECT = True
+
+# HSTS — instruct browsers to only access site via HTTPS
+# 31536000 seconds = 1 year. Set to lower value while testing (e.g. 60).
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# If Django is behind a proxy (nginx, GCP load balancer, Heroku, etc.)
+# enable this so Django knows the original request was HTTPS.
+# Common value when nginx sets X-Forwarded-Proto header:
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Cookies — only send cookies over HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Browser protections (clickjacking / content sniffing / XSS filter)
+X_FRAME_OPTIONS = "DENY"
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+
+# Make sure SecurityMiddleware is enabled in MIDDLEWARE (near top)
+# MIDDLEWARE = [
+#     "django.middleware.security.SecurityMiddleware",
+#     ...
+#     "django.middleware.csrf.CsrfViewMiddleware",
+#     ...
+# ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -186,6 +227,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 AUTH_USER_MODEL = "bookshelf.CustomUser"
+
 
 
 
