@@ -3,6 +3,8 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Book
 from .forms import BookForm, SearchForm
+from .forms import ExampleForm
+
 
 
 @permission_required("bookshelf.can_view", raise_exception=True)
@@ -46,3 +48,4 @@ def delete_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
     book.delete()
     return redirect("bookshelf:book_list")
+
