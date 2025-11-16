@@ -64,6 +64,10 @@ CSP_SCRIPT_SRC = ("'self'",)  # add trusted CDNs if used
 CSP_STYLE_SRC = ("'self'",)   # add 'unsafe-inline' only if you have to
 CSP_IMG_SRC = ("'self'", "data:")
 CSP_CONNECT_SRC = ("'self'",)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "https://trusted.cdn.example.com")
+# etc.
+
 
 # Other helpful headers via SecurityMiddleware (ensure SecurityMiddleware is in MIDDLEWARE)
 # Django's SecurityMiddleware already sets some headers when configured as above.
@@ -84,6 +88,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'relationship_app',
+    "csp",
 ]
 
 MIDDLEWARE = [
@@ -94,6 +99,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "csp.middleware.CSPMiddleware",
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -179,6 +186,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 AUTH_USER_MODEL = "bookshelf.CustomUser"
+
 
 
 
