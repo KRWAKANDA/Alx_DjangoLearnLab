@@ -1,6 +1,7 @@
 # relationship_app/views.py
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView
+from .models import Library
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -107,3 +108,4 @@ class LibraryDetailView(DetailView):
     model = Library
     template_name = 'relationship_app/library_detail.html'
     context_object_name = 'library'
+
