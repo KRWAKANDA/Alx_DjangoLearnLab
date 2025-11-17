@@ -4,7 +4,13 @@ from . import views
 from django.urls import path
 from . import views
 from django.urls import path
-from . import views
+from .views import list_books, LibraryDetailView  # ✅ explicit imports
+
+urlpatterns = [
+    path('', list_books, name='home'),  # function-based view
+    path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),  # class-based view
+]
+
 
 urlpatterns = [
     path('books/add/', views.add_book, name='add_book'),         
@@ -35,6 +41,7 @@ urlpatterns = [
  
     path('', views.list_books, name='home'),
 ]
+
 
 
 
