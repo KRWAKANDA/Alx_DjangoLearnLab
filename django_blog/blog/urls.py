@@ -1,4 +1,3 @@
-# blog/urls.py
 from django.urls import path
 from .views import (
     PostListView,
@@ -26,3 +25,4 @@ urlpatterns = [
     path('posts/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'),# Edit a post
     path('posts/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'), # Delete a post
 ]
+
