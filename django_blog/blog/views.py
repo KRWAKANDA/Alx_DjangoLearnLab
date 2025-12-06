@@ -14,6 +14,13 @@ from django.urls import reverse
 from .models import Post, Comment
 from .forms import CommentForm
 from django.db.models import Q
+from taggit.models import Tag
+
+def posts_by_tag(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    posts = Post.objects.filter(tags__name__iexact=tag.name)
+    return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})
+
 
 def search_posts(request):
     query = request.GET.get('q')
@@ -157,6 +164,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+
 
 
 
