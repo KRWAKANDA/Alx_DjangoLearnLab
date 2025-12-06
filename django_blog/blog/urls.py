@@ -10,6 +10,7 @@ from .views import (
     logout_view,
     profile_view,
 )
+
 from .views import (
     CommentCreateView,
     CommentUpdateView,
@@ -18,10 +19,11 @@ from .views import (
 
 urlpatterns += [
     # Comment URLs
-    path('posts/<int:post_pk>/comments/new/', CommentCreateView.as_view(), name='comment-create'),
-    path('comments/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),
-    path('comments/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
+    path('post/<int:pk>/comments/new/', CommentCreateView.as_view(), name='comment-create'),
+    path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
 ]
+
 
 
 
@@ -39,4 +41,5 @@ urlpatterns = [
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'), # Delete a post
     path('', PostListView.as_view(), name='post-list'),                        # List all posts
 ]
+
 
