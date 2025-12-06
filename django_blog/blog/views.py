@@ -13,6 +13,19 @@ from .forms import PostForm
 from django.urls import reverse
 from .models import Post, Comment
 from .forms import CommentForm
+from django.db.models import Q
+
+def search_posts(request):
+    query = request.GET.get('q')
+    results = []
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+    return render(request, 'blog/search_results.html', {'query': query, 'results': results})
+
 
 # Create a comment
 class CommentCreateView(LoginRequiredMixin, CreateView):
@@ -144,5 +157,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+
 
 
