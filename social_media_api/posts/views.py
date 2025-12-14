@@ -5,6 +5,7 @@ from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer, FeedPostSerializer
 from .permissions import IsOwnerOrReadOnly
 
+
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
     serializer_class = PostSerializer
@@ -38,9 +39,9 @@ class FeedView(generics.GenericAPIView):
         user = request.user
         following_users = user.following.all()
 
-        posts = Post.objects.filter(
-            author__in=following_users
-        ).order_by("-created_at")
+        posts = Post.objects.filter(author__in=following_users).order_by("-created_at")
 
         serializer = self.serializer_class(posts, many=True)
         return Response(serializer.data)
+
+
