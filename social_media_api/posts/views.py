@@ -5,7 +5,6 @@ from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer, FeedPostSerializer
 from .permissions import IsOwnerOrReadOnly
 from rest_framework import generics, permissions, status
-from django.shortcuts import get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 from .models import Post, Like
 from notifications.models import Notification
@@ -55,12 +54,9 @@ class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
-        like, created = Like.objects.get_or_create(
-            user=request.user,
-            post=post
-        )
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if not created:
             return Response(
@@ -81,7 +77,6 @@ class LikePostView(generics.GenericAPIView):
             {"detail": "Post liked successfully."},
             status=status.HTTP_201_CREATED
         )
-        
 
 class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -105,6 +100,7 @@ class UnlikePostView(generics.GenericAPIView):
             {"detail": "Post unliked successfully."},
             status=status.HTTP_200_OK
         )
+
 
 
 
