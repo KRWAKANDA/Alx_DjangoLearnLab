@@ -6,6 +6,7 @@ from .permissions import IsOwnerOrReadOnly
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from .serializers import FeedPostSerializer
+from rest_framework import generics, permissions
 
 
 
@@ -33,14 +34,17 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 
-class FeedView(ListAPIView):
+class FeedView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = FeedPostSerializer
-    permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        user = self.request.user
+    def get(self, request):
+        user = request.user
         following_users = user.following.all()
 
-        return Post.objects.filter(
+        posts = Post.objects.filter(
             author__in=following_users
         ).order_by("-created_at")
+
+        serializer = self.serializer_class(posts, many=True)
+        return Response(serializer.data)
