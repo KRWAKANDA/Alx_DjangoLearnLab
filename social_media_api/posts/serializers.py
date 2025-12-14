@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Post, Comment
+from .models import Post
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -41,3 +42,11 @@ class PostSerializer(serializers.ModelSerializer):
             'updated_at'
         ]
         read_only_fields = ['author']
+        
+class FeedPostSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField()
+
+    class Meta:
+        model = Post
+        fields = ["id", "author", "content", "created_at"]
+
